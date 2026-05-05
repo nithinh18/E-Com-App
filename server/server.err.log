@@ -1,0 +1,23 @@
+Failed to connect to MongoDB: Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.coi4jbx.mongodb.net
+    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17) {
+  errno: undefined,
+  code: 'ECONNREFUSED',
+  syscall: 'querySrv',
+  hostname: '_mongodb._tcp.cluster0.coi4jbx.mongodb.net'
+}
+Admin promotion failed: Operation `users.findOneAndUpdate()` buffering timed out after 10000ms
+Seeding Error: Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.coi4jbx.mongodb.net
+    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17) {
+  errno: undefined,
+  code: 'ECONNREFUSED',
+  syscall: 'querySrv',
+  hostname: '_mongodb._tcp.cluster0.coi4jbx.mongodb.net'
+}
+Auth error: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (C:\Users\Nitin\Desktop\ecommerce-app\server\node_modules\mongoose\lib\drivers\node-mongodb-native\collection.js:131:25)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
+Auth error: MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
+    at Timeout._onTimeout (C:\Users\Nitin\Desktop\ecommerce-app\server\node_modules\mongoose\lib\drivers\node-mongodb-native\collection.js:131:25)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
