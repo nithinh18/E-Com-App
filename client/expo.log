@@ -1,9 +1,64 @@
-
-> client@1.0.0 web
-> expo start --web --port 8081
-
 env: load .env
 env: export EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY
-Starting project at C:\Users\Nitin\Desktop\ecommerce-app\client
+Starting project at C:\Users\Nitin\Desktop\Projects\ecommerce-app\client
 React Compiler enabled
 Starting Metro Bundler
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Web node_modules\expo-router\entry.js ▓▓▓░░░░░░░░░░░░░ 19.1% ( 7/16)
+λ node_modules\expo-router\node\render.js ▓░░░░░░░░░░░░░░░  8.2% ( 9/42)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web node_modules\expo-router\entry.js ▓▓▓░░░░░░░░░░░░░ 19.1% ( 37/134)
+λ node_modules\expo-router\node\render.js ▓░░░░░░░░░░░░░░░ 10.7% ( 76/242)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+| Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+|   npx update-browserslist-db@latest
+|   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Web node_modules\expo-router\entry.js ▓▓▓░░░░░░░░░░░░░ 19.1% ( 94/254)
+λ node_modules\expo-router\node\render.js ▓▓▓░░░░░░░░░░░░░ 19.9% (175/418)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web node_modules\expo-router\entry.js ▓▓▓▓░░░░░░░░░░░░ 29.7% (255/482)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓░░░░░░░░░░ 39.0% (404/647)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 51.9% (565/784)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓░░░░░░ 65.2% (751/930)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 80.8% ( 993/1105)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 79.8% (1066/1203)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 88.8% (1305/1385)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 92.4% (1407/1475)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 25821ms node_modules\expo-router\node\render.js (1612 modules)
+λ Bundled 25113ms node_modules\expo-router\node\render.js (1 module)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (1549/1549)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 28554ms node_modules\expo-router\entry.js (1 module)
+Web Bundled 29341ms node_modules\expo-router\entry.js (1549 modules)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 57ms node_modules\expo-router\node\render.js (1 module)
+Web Bundled 642ms node_modules\expo-router\entry.js (1 module)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 58ms node_modules\expo-router\node\render.js (1 module)
+Web Bundled 780ms node_modules\expo-router\entry.js (1 module)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 79ms node_modules\expo-router\node\render.js (1 module)
+Web Bundled 778ms node_modules\expo-router\entry.js (1 module)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓░░░░░░░ 60.7% (530/680)
+λ Bundled 145ms node_modules\expo-router\node\render.js (1 module)
+Web Bundled 1781ms node_modules\expo-router\entry.js (1 module)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 82.5% ( 955/1053)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 95.7% (1438/1484)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 10935ms node_modules\expo-router\entry.js (1551 modules)
+Web Bundled 6190ms node_modules\expo-router\entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+ LOG  [web] Logs will appear in the browser console

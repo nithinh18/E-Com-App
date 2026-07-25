@@ -1,9 +1,11 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CartItem from "@/components/CartItem";
 import Header from "@/components/Header";
+import { COLORS } from "@/constants";
 import { useCart } from "@/context/CartContext";
 
 export default function Cart() {
@@ -51,10 +53,14 @@ export default function Cart() {
                     </View>
                 </>
             ) : (
-                <View className="flex-1 items-center justify-center">
-                    <Text className="text-secondary text-lg">Your cart is empty</Text>
-                    <TouchableOpacity onPress={() => router.push("/")} className="mt-4">
-                        <Text className="text-primary font-bold">Start Shopping</Text>
+                <View className="flex-1 items-center justify-center px-10">
+                    <View className="w-20 h-20 rounded-full bg-white items-center justify-center mb-4">
+                        <Ionicons name="bag-outline" size={32} color={COLORS.secondary} />
+                    </View>
+                    <Text className="text-primary font-bold text-lg mb-1">Your cart is empty</Text>
+                    <Text className="text-secondary text-sm text-center mb-6">Looks like you haven&apos;t added anything yet.</Text>
+                    <TouchableOpacity onPress={() => router.push("/")} className="bg-primary px-8 py-3 rounded-full">
+                        <Text className="text-white font-bold">Start Shopping</Text>
                     </TouchableOpacity>
                 </View>
             )}

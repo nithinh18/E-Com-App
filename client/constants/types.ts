@@ -40,6 +40,7 @@ export interface Product {
 
 export type ProductCardProps = {
     product: Product;
+    width?: number;
 };
 
 export interface CartItem {
@@ -65,7 +66,6 @@ export type HeaderProps = {
     showBack?: boolean;
     showSearch?: boolean;
     showCart?: boolean;
-    showMenu?: boolean;
     showLogo?: boolean;
 };
 

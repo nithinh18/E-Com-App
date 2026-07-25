@@ -6,56 +6,55 @@ import { COLORS } from "@/constants";
 import { useCart } from "@/context/CartContext";
 import type { HeaderProps } from "@/constants/types";
 
-export default function Header({ title, showBack, showSearch, showCart, showMenu, showLogo }: HeaderProps) {
+export default function Header({ title, showBack, showSearch, showCart, showLogo }: HeaderProps) {
 
     const router = useRouter();
     const { itemCount } = useCart();
 
     return (
-        <View className="flex-row items-center justify-between px-4 py-3 bg-white">
-            <View className="flex-row items-center flex-1">
+        <View className="flex-row items-center justify-between px-4 py-3 bg-white border-b border-border">
+            {/* Left slot */}
+            <View className="flex-1 flex-row items-center">
                 {showBack && (
-                    <TouchableOpacity onPress={() => router.back()} className="mr-3">
-                        <Ionicons name="arrow-back" size={24} color={COLORS.primary} />
+                    <TouchableOpacity
+                        onPress={() => router.back()}
+                        hitSlop={8}
+                        className="w-9 h-9 -ml-2 rounded-full items-center justify-center"
+                    >
+                        <Ionicons name="arrow-back" size={22} color={COLORS.primary} />
                     </TouchableOpacity>
                 )}
-
-                {showMenu && (
-                    <TouchableOpacity className="mr-3" >
-                        <Ionicons name="menu-outline" size={28} color={COLORS.primary} />
-                    </TouchableOpacity>
-                )}
-
-                {showLogo ? (
-                    <View className="flex-1">
-                        <Image
-                            source={require("@/assets/logo.png")}
-                            style={{ width: "100%", height: 24 }}
-                            resizeMode="contain"
-                        />
-                    </View>
-                ) : title && (
-                    <Text className="text-xl font-bold text-primary text-center flex-1 mr-8">
-                        {title}
-                    </Text>
-                )}
-
-                {(!title && !showSearch) && <View className="flex-1" />}
             </View>
 
-            <View className="flex-row items-center gap-4">
+            {/* Center slot */}
+            <View className="items-center justify-center">
+                {showLogo ? (
+                    <Image
+                        source={require("@/assets/logo.png")}
+                        style={{ width: 120, height: 26 }}
+                        resizeMode="contain"
+                    />
+                ) : title ? (
+                    <Text className="text-lg font-bold text-primary" numberOfLines={1}>
+                        {title}
+                    </Text>
+                ) : null}
+            </View>
+
+            {/* Right slot */}
+            <View className="flex-1 flex-row items-center justify-end gap-4">
                 {showSearch && (
-                    <TouchableOpacity>
-                        <Ionicons name="search-outline" size={24} color={COLORS.primary} />
+                    <TouchableOpacity onPress={() => router.push("/shop")} hitSlop={8}>
+                        <Ionicons name="search-outline" size={22} color={COLORS.primary} />
                     </TouchableOpacity>
                 )}
                 {showCart && (
-                    <TouchableOpacity onPress={() => router.push("/(tabs)/cart")}>
+                    <TouchableOpacity onPress={() => router.push("/(tabs)/cart")} hitSlop={8}>
                         <View className="relative">
-                            <Ionicons name="bag-outline" size={24} color={COLORS.primary} />
+                            <Ionicons name="bag-outline" size={22} color={COLORS.primary} />
                             {itemCount > 0 && (
-                                <View className="absolute -top-1 -right-1 bg-accent w-4 h-4 rounded-full items-center justify-center">
-                                    <Text className="text-white text-[10px] font-bold">{itemCount}</Text>
+                                <View className="absolute -top-1.5 -right-2 bg-accent min-w-[16px] h-4 rounded-full items-center justify-center px-1">
+                                    <Text className="text-white text-[10px] font-bold">{itemCount > 9 ? "9+" : itemCount}</Text>
                                 </View>
                             )}
                         </View>
