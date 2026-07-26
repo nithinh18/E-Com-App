@@ -9,19 +9,17 @@ export const COLORS = {
 };
 
 export const CATEGORIES = [
-    { id: 1, name: "Men", icon: "man-outline" },
-    { id: 2, name: "Women", icon: "woman-outline" },
-    { id: 3, name: "Kids", icon: "happy-outline" },
-    { id: 4, name: "Shoes", icon: "footsteps-outline" },
-    { id: 5, name: "Bag", icon: "briefcase-outline" },
-    { id: 6, name: "Other", icon: "grid-outline" },
+    { id: 1, name: "Men" },
+    { id: 2, name: "Women" },
+    { id: 3, name: "Kids" },
+    { id: 4, name: "Shoes" },
+    { id: 5, name: "Bags" },
+    { id: 6, name: "Other" },
 ];
 
 export const PROFILE_MENU = [
-    { id: 1, title: "My Orders", icon: "receipt-outline", route: "/orders" },
-    { id: 2, title: "Shipping Addresses", icon: "location-outline", route: "/addresses" },
-    { id: 4, title: "My Reviews", icon: "star-outline", route: "/" },
-    { id: 5, title: "Settings", icon: "settings-outline", route: "/" },
+    { id: 1, title: "My Orders", route: "/account/orders" },
+    { id: 2, title: "Shipping Address", route: "/account/address" },
 ];
 
 export const getStatusColor = (status: string) => {
@@ -39,4 +37,9 @@ export const getStatusColor = (status: string) => {
         default:
             return "bg-gray-50 text-gray-900";
     }
+};
+
+export const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "short", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
 };

@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import Order from "../models/Order.js";
 import Cart from "../models/Cart.js";
+import Product from "../models/Product.js";
 import { Request, Response } from "express";
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -17,7 +18,7 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
 
         const lineItems = items.map((item: any) => ({
             price_data: {
-                currency: "usd",
+                currency: "inr",
                 product_data: {
                     name: item.product.name,
                     images: item.product.images ? [item.product.images[0]] : [],
@@ -30,7 +31,7 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
         if (shipping > 0) {
             lineItems.push({
                 price_data: {
-                    currency: "usd",
+                    currency: "inr",
                     product_data: {
                         name: "Shipping",
                     },
@@ -56,6 +57,23 @@ export const createCheckoutSession = async (req: Request, res: Response) => {
 
         res.json({ id: session.id, url: session.url });
     } catch (error: any) {
+        // The order was already created (with stock decremented) before this call.
+        // Since the Stripe session never got created, no payment was ever attempted,
+        // so roll back the stock reservation and remove the orphaned pending order.
+        const { orderId } = req.body;
+        if (orderId) {
+            try {
+                const order = await Order.findById(orderId);
+                if (order && order.paymentStatus === "pending") {
+                    for (const item of order.items) {
+                        await Product.findByIdAndUpdate(item.product, { $inc: { stock: item.quantity } });
+                    }
+                    await Order.findByIdAndDelete(orderId);
+                }
+            } catch (rollbackError: any) {
+                console.error("Failed to roll back order after checkout-session error:", rollbackError.message);
+            }
+        }
         res.status(500).json({ error: error.message });
     }
 };

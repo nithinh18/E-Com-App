@@ -4,7 +4,9 @@ import { clerkClient } from "@clerk/express";
 const makeAdmin = async () => {
     try {
         const email = process.env.ADMIN_EMAIL;
-        const user = await User.findOneAndUpdate({ email }, { role: "admin" });
+        if (!email) return;
+        const escaped = email.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const user = await User.findOneAndUpdate({ email: new RegExp(`^${escaped}$`, "i") }, { role: "admin" });
         if (user) {
             await clerkClient.users.updateUserMetadata(user.clerkId as string, {
                 publicMetadata: {

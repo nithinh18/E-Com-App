@@ -1,8 +1,17 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { Product, WishlistContextType } from '@/constants/types';
-import api from '@/constants/api';
-import { useAuth } from '@clerk/clerk-expo';
-import Toast from 'react-native-toast-message';
+"use client";
+
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { useAuth } from "@clerk/nextjs";
+import toast from "react-hot-toast";
+import api from "@/lib/api";
+import type { Product } from "@/constants/types";
+
+type WishlistContextType = {
+    wishlist: Product[];
+    toggleWishlist: (product: Product) => void;
+    isInWishlist: (productId: string) => boolean;
+    loading: boolean;
+};
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
 
@@ -26,11 +35,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
     const toggleWishlist = async (product: Product) => {
         if (!isSignedIn) {
-            Toast.show({
-                type: 'error',
-                text1: 'Please login',
-                text2: 'You need to be logged in to add items to wishlist'
-            });
+            toast.error("Please login to use your wishlist");
             return;
         }
 
@@ -45,11 +50,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
                 return [...prev, product];
             });
         } catch (error: any) {
-            Toast.show({
-                type: 'error',
-                text1: 'Failed to Update Wishlist',
-                text2: error.response?.data?.message || "Something went wrong"
-            });
+            toast.error(error.response?.data?.message || "Failed to update wishlist");
         }
     };
 
@@ -63,6 +64,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
         } else {
             setWishlist([]);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSignedIn]);
 
     return (
@@ -75,7 +77,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 export function useWishlist() {
     const context = useContext(WishlistContext);
     if (context === undefined) {
-        throw new Error('useWishlist must be used within a WishlistProvider');
+        throw new Error("useWishlist must be used within a WishlistProvider");
     }
     return context;
 }

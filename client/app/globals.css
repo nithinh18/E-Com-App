@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #111111;
+}
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: #111111;
+  --color-primary: #111111;
+  --color-secondary: #666666;
+  --color-surface: #f7f7f7;
+  --color-accent: #ff4c3b;
+  --color-border: #eeeeee;
+  --color-error: #ff4444;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 24s linear infinite;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+}

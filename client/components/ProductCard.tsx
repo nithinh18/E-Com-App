@@ -1,64 +1,69 @@
-import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
-import React from "react";
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import { COLORS } from "@/constants";
-import type { ProductCardProps } from "@/constants/types";
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { Heart, Star } from "lucide-react";
 import { useWishlist } from "@/context/WishlistContext";
+import type { Product } from "@/constants/types";
+import { COLORS } from "@/constants";
 
-
-export default function ProductCard({ product, width }: ProductCardProps) {
+export default function ProductCard({ product }: { product: Product }) {
     const { toggleWishlist, isInWishlist } = useWishlist();
     const isLiked = isInWishlist(product._id);
     const rating = product.ratings?.average ?? 0;
-    const discount = product.comparePrice && product.comparePrice > product.price
-        ? Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)
-        : 0;
+    const discount =
+        product.comparePrice && product.comparePrice > product.price
+            ? Math.round(((product.comparePrice - product.price) / product.comparePrice) * 100)
+            : 0;
 
     return (
-        <Link href={`/product/${product._id}`} asChild>
-            <TouchableOpacity
-                className={`${width ? "" : "w-[48%]"} mb-4 bg-white rounded-2xl overflow-hidden border border-border`}
-                style={width ? { width } : undefined}
-            >
-                <View className="relative h-56 w-full bg-gray-100">
-                    <Image source={{ uri: product.images[0] }} className="w-full h-full" resizeMode="cover" />
-                    <TouchableOpacity className="absolute top-2 right-2 z-10 p-2 bg-white rounded-full shadow-sm" onPress={(e) => { e.stopPropagation(); toggleWishlist(product); }}>
-                        <Ionicons name={isLiked ? "heart" : "heart-outline"} size={18} color={isLiked ? COLORS.accent : COLORS.primary} />
-                    </TouchableOpacity>
+        <Link href={`/product/${product._id}`} className="group block">
+            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-surface border border-border">
+                <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <button
+                    onClick={(e) => {
+                        e.preventDefault();
+                        toggleWishlist(product);
+                    }}
+                    className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 backdrop-blur flex items-center justify-center shadow-sm hover:scale-105 transition-transform"
+                    aria-label="Toggle wishlist"
+                >
+                    <Heart size={16} fill={isLiked ? COLORS.accent : "none"} color={isLiked ? COLORS.accent : COLORS.primary} />
+                </button>
 
-                    <View className="absolute top-2 left-2 flex-row gap-1">
-                        {product.isFeatured && (
-                            <View className="bg-black px-2 py-1 rounded-md">
-                                <Text className="text-white text-[10px] font-bold uppercase">Featured</Text>
-                            </View>
-                        )}
-                        {discount > 0 && (
-                            <View className="bg-accent px-2 py-1 rounded-md">
-                                <Text className="text-white text-[10px] font-bold">-{discount}%</Text>
-                            </View>
-                        )}
-                    </View>
-                </View>
+                <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+                    {product.isFeatured && (
+                        <span className="bg-black text-white text-[10px] font-bold uppercase px-2 py-1 rounded-md tracking-wide">
+                            Featured
+                        </span>
+                    )}
+                    {discount > 0 && (
+                        <span className="bg-accent text-white text-[10px] font-bold px-2 py-1 rounded-md">-{discount}%</span>
+                    )}
+                </div>
+            </div>
 
-                <View className="p-3">
-                    <View className="flex-row items-center mb-1">
-                        <Ionicons name="star" size={13} color="#FFD700" />
-                        <Text className="text-secondary text-xs ml-1">
-                            {rating > 0 ? rating.toFixed(1) : "New"}
-                        </Text>
-                    </View>
-                    <Text className="text-primary font-medium text-sm mb-1" numberOfLines={1}>
-                        {product.name}
-                    </Text>
-                    <View className="flex-row items-center">
-                        <Text className="text-primary font-bold text-base">${product.price.toFixed(2)}</Text>
-                        {product.comparePrice && (
-                            <Text className="text-secondary text-xs line-through ml-2">${product.comparePrice.toFixed(2)}</Text>
-                        )}
-                    </View>
-                </View>
-            </TouchableOpacity>
+            <div className="mt-3 flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                    <p className="text-sm font-medium text-primary truncate">{product.name}</p>
+                    <div className="flex items-center gap-1 mt-1">
+                        <Star size={12} className="fill-yellow-400 text-yellow-400" />
+                        <span className="text-xs text-secondary">{rating > 0 ? rating.toFixed(1) : "New"}</span>
+                    </div>
+                </div>
+                <div className="text-right shrink-0">
+                    <p className="text-sm font-bold text-primary">₹{product.price.toFixed(2)}</p>
+                    {product.comparePrice && (
+                        <p className="text-xs text-secondary line-through">₹{product.comparePrice.toFixed(2)}</p>
+                    )}
+                </div>
+            </div>
         </Link>
     );
 }

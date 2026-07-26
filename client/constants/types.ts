@@ -4,13 +4,6 @@ export interface User {
     email: string;
     role: "user" | "admin";
     phone?: string;
-    address?: {
-        street: string;
-        city: string;
-        state: string;
-        zipCode: string;
-        country: string;
-    };
     createdAt: string;
 }
 
@@ -38,36 +31,14 @@ export interface Product {
     createdAt: string;
 }
 
-export type ProductCardProps = {
-    product: Product;
-    width?: number;
-};
-
 export interface CartItem {
+    id: string;
+    productId: string;
     product: Product;
     quantity: number;
     size: string;
+    price: number;
 }
-
-export type CartItemProps = {
-    item: { id: string; product: { name: string; price: number; images: string[] }; quantity: number; size: string };
-    onRemove?: () => void;
-    onUpdateQuantity?: (newQty: number) => void;
-};
-
-export type CategoryItemProps = {
-    item: { id: string | number; name: string; icon: string };
-    isSelected?: boolean;
-    onPress?: () => void;
-};
-
-export type HeaderProps = {
-    title?: string;
-    showBack?: boolean;
-    showSearch?: boolean;
-    showCart?: boolean;
-    showLogo?: boolean;
-};
 
 export interface Address {
     _id: string;
@@ -114,9 +85,10 @@ export interface Order {
     createdAt: string;
 }
 
-export type WishlistContextType = {
-    wishlist: Product[];
-    toggleWishlist: (product: Product) => void;
-    isInWishlist: (productId: string) => boolean;
-    loading: boolean;
-};
+export interface AdminStats {
+    totalUsers: number;
+    totalProducts: number;
+    totalOrders: number;
+    totalRevenue: number;
+    recentOrders: Order[];
+}

@@ -1,25 +1,16 @@
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import api from '@/constants/api';
-import { Product } from '@/constants/types';
-import { useAuth } from '@clerk/clerk-expo';
-import Toast from 'react-native-toast-message';
+"use client";
 
-export { Product };
-
-export type CartItem = {
-    id: string;
-    productId: string;
-    product: Product;
-    quantity: number;
-    size: string;
-    price: number;
-};
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { useAuth } from "@clerk/nextjs";
+import toast from "react-hot-toast";
+import api from "@/lib/api";
+import type { CartItem, Product } from "@/constants/types";
 
 type CartContextType = {
     cartItems: CartItem[];
     addToCart: (product: Product, size: string) => Promise<void>;
-    removeFromCart: (itemId: string, size: string) => Promise<void>;
-    updateQuantity: (itemId: string, quantity: number, size: string) => Promise<void>;
+    removeFromCart: (productId: string, size: string) => Promise<void>;
+    updateQuantity: (productId: string, quantity: number, size: string) => Promise<void>;
     clearCart: () => Promise<void>;
     cartTotal: number;
     itemCount: number;
@@ -29,8 +20,7 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-    const { isSignedIn } = useAuth();
-    const { getToken } = useAuth();
+    const { isSignedIn, getToken } = useAuth();
 
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +30,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         try {
             setIsLoading(true);
             const token = await getToken();
-            const { data } = await api.get('/cart', { headers: { Authorization: `Bearer ${token}` } });
+            const { data } = await api.get("/cart", { headers: { Authorization: `Bearer ${token}` } });
             if (data.success && data.data) {
                 const serverCart = data.data;
                 const mappedItems: CartItem[] = serverCart.items.map((item: any) => ({
@@ -49,7 +39,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                     product: item.product,
                     quantity: item.quantity,
                     size: item?.size || "M",
-                    price: item.price
+                    price: item.price,
                 }));
                 setCartItems(mappedItems);
                 setCartTotal(serverCart.totalAmount);
@@ -63,26 +53,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     const addToCart = async (product: Product, size: string) => {
         if (!isSignedIn) {
-            return Toast.show({
-                text1: 'Please login to add to cart',
-                type: 'error',
-            });
+            toast.error("Please login to add to cart");
+            return;
         }
 
         try {
             setIsLoading(true);
             const token = await getToken();
-            const { data } = await api.post('/cart/add', { productId: product._id, quantity: 1, size }, { headers: { Authorization: `Bearer ${token}` } });
+            const { data } = await api.post(
+                "/cart/add",
+                { productId: product._id, quantity: 1, size },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
 
             if (data.success) {
                 await fetchCart();
+                toast.success("Added to cart");
             }
         } catch (error) {
             console.error("Failed to add to cart:", error);
-            Toast.show({
-                text1: 'Failed to add to cart',
-                type: 'error',
-            });
+            toast.error("Failed to add to cart");
         } finally {
             setIsLoading(false);
         }
@@ -95,9 +85,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             setIsLoading(true);
             const token = await getToken();
             const { data } = await api.delete(`/cart/item/${productId}?size=${size}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
+                headers: { Authorization: `Bearer ${token}` },
             });
             if (data.success) {
                 await fetchCart();
@@ -116,9 +104,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
         try {
             setIsLoading(true);
             const token = await getToken();
-            const { data } = await api.put(`/cart/item/${productId}`, { quantity, size }, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const { data } = await api.put(
+                `/cart/item/${productId}`,
+                { quantity, size },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
             if (data.success) {
                 await fetchCart();
             }
@@ -135,10 +125,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         try {
             setIsLoading(true);
             const token = await getToken();
-            const { data } = await api.delete('/cart', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
+            const { data } = await api.delete("/cart", {
+                headers: { Authorization: `Bearer ${token}` },
             });
             if (data.success) {
                 setCartItems([]);
@@ -160,6 +148,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
             setCartItems([]);
             setCartTotal(0);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isSignedIn]);
 
     return (
@@ -172,7 +161,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 clearCart,
                 cartTotal,
                 itemCount,
-                isLoading
+                isLoading,
             }}
         >
             {children}
@@ -183,7 +172,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 export function useCart() {
     const context = useContext(CartContext);
     if (context === undefined) {
-        throw new Error('useCart must be used within a CartProvider');
+        throw new Error("useCart must be used within a CartProvider");
     }
     return context;
 }
